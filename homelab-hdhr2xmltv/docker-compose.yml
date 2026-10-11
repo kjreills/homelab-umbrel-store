@@ -1,0 +1,24 @@
+version: "3.7"
+
+services:
+  app_proxy:
+    environment:
+      APP_HOST: homelab-hdhr2xmltv_server_1
+      APP_PORT: 8080
+      # Jellyfin/Plex fetch the feed server-side and cannot do Umbrel
+      # login, so the feed endpoints stay public on the LAN. The tuner's
+      # DeviceAuth token is kept server-side and never exposed.
+      PROXY_AUTH_ADD: "false"
+
+  server:
+    # Upstream only publishes the `latest` tag, so it is pinned by
+    # multi-arch manifest digest (linux/amd64 + linux/arm64, verified
+    # 2026-10-11). Upstream releases: https://github.com/patrickjmcd/hdhr2xmltv/releases
+    image: ghcr.io/patrickjmcd/hdhr2xmltv:latest@sha256:7eabbd5bdb7d51525e264226eb165753676253a4003450d65fff9c51b0218e76
+    restart: on-failure
+    environment:
+      # Tuner IP is overridable from the app's settings in umbrelOS.
+      # Falls back to the default below on fresh installs.
+      - HDHOMERUN_TUNER_ADDRESS=${HDHOMERUN_TUNER_ADDRESS:-192.168.4.64}
+      - PORT=8080
+      - CACHE_TTL_MINUTES=${CACHE_TTL_MINUTES:-60}

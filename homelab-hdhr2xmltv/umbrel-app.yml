@@ -1,0 +1,45 @@
+manifestVersion: 1
+id: homelab-hdhr2xmltv
+category: media
+name: HDHR2XMLTV
+version: "1.1.0"
+tagline: HDHomeRun guide data as XMLTV for Jellyfin & Plex
+# TODO: push this store to GitHub and replace the URL below with your
+# repo's raw URL, e.g.
+# https://raw.githubusercontent.com/<you>/homelab-umbrel-store/main/homelab-hdhr2xmltv/icon.svg
+icon: https://raw.githubusercontent.com/REPLACE-ME/homelab-umbrel-store/main/homelab-hdhr2xmltv/icon.svg
+description: >-
+  Serves your HDHomeRun tuner's official SiliconDust guide data as a standard XMLTV feed for Jellyfin, Plex, or Emby.
+
+
+  On every refresh it reads a fresh DeviceAuth token from your HDHomeRun tuner (the token rotates every ~16-24h, so a static URL would go stale) and fetches the official guide from SiliconDust. Free tier returns ~2 days of listings; 14 days with a HDHomeRun DVR guide subscription.
+
+
+  After install, open the app to check status, then add the feed to Jellyfin via Dashboard > Live TV > TV Guide Data Providers > XMLTV, using http://umbrel.local:8215/xmltv (or http://<umbrel-ip>:8215/xmltv). Then map each tuner channel to its guide entry.
+
+
+  Your tuner IP is configurable in the app's settings (default 192.168.4.64). The feed endpoints (/xmltv, /guide.xml, /lineup.m3u) are intentionally public on your LAN without Umbrel login so media servers can fetch them server-side; your DeviceAuth token itself is never exposed.
+releaseNotes: ""
+developer: patrickjmcd
+website: https://github.com/patrickjmcd/hdhr2xmltv
+dependencies: []
+repo: https://github.com/patrickjmcd/hdhr2xmltv
+support: https://github.com/patrickjmcd/hdhr2xmltv/issues
+port: 8215
+gallery: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
+submitter: homelab
+submission: ""
+environment:
+  - name: HDHOMERUN_TUNER_ADDRESS
+    services:
+      - server
+    default: "192.168.4.64"
+    note: "IP address or hostname of your HDHomeRun tuner on the LAN."
+  - name: CACHE_TTL_MINUTES
+    services:
+      - server
+    default: "60"
+    note: "How long to cache the guide before re-fetching from SiliconDust."

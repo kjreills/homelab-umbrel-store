@@ -1,0 +1,2 @@
+id: "homelab" # Unique prefix for every app in this store. App IDs must start with it, e.g. "homelab-hdhr2xmltv".
+name: "Homelab" # Shown in umbrelOS as "<name> App Store".
